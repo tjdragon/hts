@@ -25,3 +25,4 @@ replay_pid*
 /not4git/
 /code/.gradle/
 /.idea/
+/code/build/
