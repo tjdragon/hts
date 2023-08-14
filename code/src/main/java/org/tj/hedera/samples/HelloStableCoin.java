@@ -6,6 +6,9 @@ import java.util.concurrent.TimeoutException;
 
 import static org.tj.hedera.samples.Utils.log;
 
+/**
+ * https://docs.hedera.com/hedera/tutorials/token/create-and-transfer-your-first-fungible-token
+ */
 public class HelloStableCoin {
     public static void main(String[] args) throws PrecheckStatusException, TimeoutException, ReceiptStatusException {
         log("*** HelloStableCoin ***");
