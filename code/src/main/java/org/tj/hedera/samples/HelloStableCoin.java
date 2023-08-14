@@ -3,6 +3,7 @@ package org.tj.hedera.samples;
 import com.hedera.hashgraph.sdk.*;
 
 import java.util.concurrent.TimeoutException;
+import java.util.function.Function;
 
 import static org.tj.hedera.samples.Utils.log;
 
@@ -48,6 +49,7 @@ public class HelloStableCoin {
         //SIGN WITH TREASURY KEY
         log("SIGN WITH TREASURY KEY");
         TokenCreateTransaction tokenCreateSign = tokenCreateTx.sign(myPrivateKey);
+        tokenCreateTx.signWith(myPrivateKey.getPublicKey(), signWithHsm());
 
         //SUBMIT THE TRANSACTION
         log("SUBMIT THE TRANSACTION");
@@ -65,5 +67,16 @@ public class HelloStableCoin {
         System.out.println("Created token with ID: " +tokenId);
         // Created token with ID: 0.0.477461
         // https://testnet.dragonglass.me/hedera/search?q=0.0.477461
+    }
+
+    private static Function<byte[],byte[]> signWithHsm() {
+        return (
+               HelloStableCoin::sign
+        );
+    }
+
+    private static byte[] sign(final byte[] data) {
+        // Logic to call the HSM here and return the raw signature
+        return new byte[]{};
     }
 }
