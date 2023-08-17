@@ -22,13 +22,13 @@ A step-by-step guide to use [Hedera Token Service](https://hedera.com/token-serv
 - After deploying the SC I minted 50 TEURZ to account 0.0.490575, which is the one you used to deploy the SCs
 
 ### Transfer
-In order for accounts to transfer tokens from account A to account B you cannot use the SCs, 
-you have to use HTS and transfer token 0.0.490601, like any other regular hedera token.
+In order for accounts to transfer tokens from account A to account B one cannot use the SCs, 
+one has to use HTS and transfer token 0.0.490601, like any other regular hedera token.
 
 However it is very important to note that in order for account A to hold token T, it must first associate to the token, 
 that is an operation that cannot be carried out using our web app / SCs, you have to do it using HTS. 
 Account 0.0.490575 was automatically associated to toke 0.0.490601 during the token creation.
 
 ### Minting
-In order to mint new tokens and directly assign them to accounts you must use our SCs via our web app, 
-just like you did to mint 50 tokens to account 0.0.490575.
+In order to mint new tokens and directly assign them to accounts I must use the SCs via our web app, 
+just like I minted 50 tokens to account 0.0.490575.
