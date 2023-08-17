@@ -14,7 +14,7 @@ A step-by-step guide to use [Hedera Token Service](https://hedera.com/token-serv
 
 ## Test links:
 
-- The token linked to the Stable Coin is this one : [0.0.490600](https://hashscan.io/testnet/token/0.0.490601?p=1&k=0.0.490600)
+- The token linked to the Stable Coin is this one : [0.0.490601](https://hashscan.io/testnet/token/0.0.490601?p=1&k=0.0.490600)
 - The SC proxy contract : [0.0.490600](https://hashscan.io/testnet/contract/0.0.490600)
 - The SC proxy contract is the Token's treasury account, which is the default behaviour when the web app to deploy new SCs
 - The initial supply was 100 millions TEURZ
