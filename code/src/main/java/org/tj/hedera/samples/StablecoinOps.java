@@ -36,8 +36,7 @@ public class StablecoinOps {
             log("");
             log("Stablecoin Operation Menu:");
             log("   1. Get balance for account");
-            log("   2. Transfer tokens");
-            log("   3. Mint To");
+            log("   2. Rescue Tokens");
 
             try {
                 final Scanner in = new Scanner(System.in);
@@ -49,62 +48,77 @@ public class StablecoinOps {
         }
     }
 
-    private static void processOption(final int option) throws PrecheckStatusException, TimeoutException {
+    private static void processOption(final int option) throws PrecheckStatusException, TimeoutException, ReceiptStatusException {
         switch (option) {
             case 1:
                 getBalanceForAccount();
                 break;
             case 2:
-                transferTokens();
-                break;
-            case 3:
-                mintTo();
+                rescueTokens();
                 break;
             default:
         }
     }
 
-    private static void mintTo() throws PrecheckStatusException, TimeoutException {
-        log(" ->> MINT TO...");
+    private static void rescueTokens() throws PrecheckStatusException, TimeoutException, ReceiptStatusException {
+        log(" ->> RESCUE...");
 
         final Scanner in = new Scanner(System.in);
-        log("Mint amount?");
+        log("Rescue amount:");
         final long amount = in.nextLong();
-        log("To account? (0.0.xxx)"); // 0.0.490575
-        final String toAddress = AccountId.fromString(in.next().trim()).toSolidityAddress();
 
-        final ContractFunctionResult contractUpdateResult = new ContractCallQuery()
-                .setContractId(STABLE_COIN_PROXY_ID)
-                .setGas(DEFAULT_GAS)
-                .setFunction("mint", new ContractFunctionParameters()
-                        .addAddress(toAddress)
+        final TransactionResponse contractExecResponse = new ContractExecuteTransaction()
+                .setContractId(ContractId.fromString("0.0.490600"))
+                .setGas(4_000_000)
+                .setFunction("rescue", new ContractFunctionParameters()
                         .addInt64(amount))
-                .execute(client);
+                .execute(client); // 0.0.490575
 
-        final boolean success = contractUpdateResult.getBool(0);
-        log("Transfer Success: " + success);
+        final TransactionReceipt transactionReceipt = contractExecResponse.getReceipt(client);
+        log("TransactionReceipt: " + transactionReceipt);
     }
 
-    private static void transferTokens() throws PrecheckStatusException, TimeoutException {
-        log(" ->> TRANSFER TOKENS...");
+//    private static void mintTo() throws PrecheckStatusException, TimeoutException {
+//        log(" ->> MINT TO...");
+//
+//        final Scanner in = new Scanner(System.in);
+//        log("Mint amount?");
+//        final long amount = in.nextLong();
+//        log("To account? (0.0.xxx)"); // 0.0.490575
+//        final String toAddress = AccountId.fromString(in.next().trim()).toSolidityAddress();
+//
+//        final ContractFunctionResult contractUpdateResult = new ContractCallQuery()
+//                .setContractId(STABLE_COIN_PROXY_ID)
+//                .setGas(DEFAULT_GAS)
+//                .setFunction("mint", new ContractFunctionParameters()
+//                        .addAddress(toAddress)
+//                        .addInt64(amount))
+//                .execute(client);
+//
+//        final boolean success = contractUpdateResult.getBool(0);
+//        log("Transfer Success: " + success);
+//    }
 
-        final Scanner in = new Scanner(System.in);
-        log("Transfer amount?");
-        final BigInteger amount = BigInteger.valueOf(in.nextLong());
-        log("To account? (0.0.xxx)"); // 0.0.490575
-        final String toAddress = AccountId.fromString(in.next().trim()).toSolidityAddress();
-
-        final ContractFunctionResult contractUpdateResult = new ContractCallQuery()
-                .setContractId(STABLE_COIN_CONTRACT_ID)
-                .setGas(DEFAULT_GAS)
-                .setFunction("transfer", new ContractFunctionParameters()
-                        .addAddress(toAddress)
-                        .addUint256(amount))
-                .execute(client);
-
-        final boolean success = contractUpdateResult.getBool(0);
-        log("Transfer Success: " + success);
-    }
+//    private static void transferTokens() throws PrecheckStatusException, TimeoutException {
+//        log(" ->> TRANSFER TOKENS...");
+//
+//        final Scanner in = new Scanner(System.in);
+//        log("Transfer amount?");
+//        final BigInteger amount = BigInteger.valueOf(in.nextLong());
+//        log("To account? (0.0.xxx)"); // 0.0.490575
+//        final String toAddress = AccountId.fromString(in.next().trim()).toSolidityAddress();
+//
+//        final ContractFunctionResult contractUpdateResult = new ContractCallQuery()
+//                .setContractId(STABLE_COIN_CONTRACT_ID)
+//                .setGas(DEFAULT_GAS)
+//                .setFunction("transfer", new ContractFunctionParameters()
+//                        .addAddress(toAddress)
+//                        .addUint256(amount))
+//                .execute(client);
+//
+//        final boolean success = contractUpdateResult.getBool(0);
+//        log("Transfer Success: " + success);
+//    }
 
     private static void getBalanceForAccount() throws PrecheckStatusException, TimeoutException {
         log(" ->> GET BALANCE...");
