@@ -9,16 +9,12 @@ import java.util.concurrent.TimeoutException;
 import static org.tj.hedera.samples.Utils.log;
 
 public class StablecoinOps {
-    public static final ContractId STABLE_COIN_CONTRACT_ID = ContractId.fromString("0.0.490601");
-    // https://hashscan.io/testnet/contract/0.0.490600
-    public static final ContractId STABLE_COIN_PROXY_ID = ContractId.fromString("0.0.490600");
-    public static final long DEFAULT_GAS = 4000000;
 
     private static Client client;
 
     private static void createClient() {
-        AccountId myAccountId = AccountId.fromString("0.0.490575");
-        PrivateKey myPrivateKey = PrivateKey.fromString("302e020100300506032b6570042204209c08a7e451bffcd6a382542264d12cfaf22525cbbff03ad4c34b43d388e79719");
+        AccountId myAccountId = Constants.ACCOUNT_490575;
+        PrivateKey myPrivateKey = Constants.PRI_KEY_490575;
 
         client = Client.forTestnet();
         client.setOperator(myAccountId, myPrivateKey);
@@ -68,7 +64,7 @@ public class StablecoinOps {
         final long amount = in.nextLong();
 
         final TransactionResponse contractExecResponse = new ContractExecuteTransaction()
-                .setContractId(ContractId.fromString("0.0.490600"))
+                .setContractId(Constants.STABLE_COIN_PROXY_ID)
                 .setGas(4_000_000)
                 .setFunction("rescue", new ContractFunctionParameters()
                         .addInt64(amount))
@@ -78,48 +74,6 @@ public class StablecoinOps {
         log("TransactionReceipt: " + transactionReceipt);
     }
 
-//    private static void mintTo() throws PrecheckStatusException, TimeoutException {
-//        log(" ->> MINT TO...");
-//
-//        final Scanner in = new Scanner(System.in);
-//        log("Mint amount?");
-//        final long amount = in.nextLong();
-//        log("To account? (0.0.xxx)"); // 0.0.490575
-//        final String toAddress = AccountId.fromString(in.next().trim()).toSolidityAddress();
-//
-//        final ContractFunctionResult contractUpdateResult = new ContractCallQuery()
-//                .setContractId(STABLE_COIN_PROXY_ID)
-//                .setGas(DEFAULT_GAS)
-//                .setFunction("mint", new ContractFunctionParameters()
-//                        .addAddress(toAddress)
-//                        .addInt64(amount))
-//                .execute(client);
-//
-//        final boolean success = contractUpdateResult.getBool(0);
-//        log("Transfer Success: " + success);
-//    }
-
-//    private static void transferTokens() throws PrecheckStatusException, TimeoutException {
-//        log(" ->> TRANSFER TOKENS...");
-//
-//        final Scanner in = new Scanner(System.in);
-//        log("Transfer amount?");
-//        final BigInteger amount = BigInteger.valueOf(in.nextLong());
-//        log("To account? (0.0.xxx)"); // 0.0.490575
-//        final String toAddress = AccountId.fromString(in.next().trim()).toSolidityAddress();
-//
-//        final ContractFunctionResult contractUpdateResult = new ContractCallQuery()
-//                .setContractId(STABLE_COIN_CONTRACT_ID)
-//                .setGas(DEFAULT_GAS)
-//                .setFunction("transfer", new ContractFunctionParameters()
-//                        .addAddress(toAddress)
-//                        .addUint256(amount))
-//                .execute(client);
-//
-//        final boolean success = contractUpdateResult.getBool(0);
-//        log("Transfer Success: " + success);
-//    }
-
     private static void getBalanceForAccount() throws PrecheckStatusException, TimeoutException {
         log(" ->> GET BALANCE...");
         log("Account (0.0.xxx) ?"); // 0.0.490575
@@ -128,8 +82,8 @@ public class StablecoinOps {
         final String address = AccountId.fromString(id).toSolidityAddress();
 
         final ContractFunctionResult contractUpdateResult = new ContractCallQuery()
-                .setContractId(STABLE_COIN_CONTRACT_ID)
-                .setGas(DEFAULT_GAS) // gasUsed=2876
+                .setContractId(Constants.STABLE_COIN_CONTRACT_ID)
+                .setGas(Constants.DEFAULT_GAS) // gasUsed=2876
                 .setFunction("balanceOf", new ContractFunctionParameters()
                         .addAddress(address))
                 .execute(client);

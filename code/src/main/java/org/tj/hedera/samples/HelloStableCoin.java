@@ -14,9 +14,9 @@ public class HelloStableCoin {
     public static void main(String[] args) throws PrecheckStatusException, TimeoutException, ReceiptStatusException {
         log("*** HelloStableCoin ***");
 
-        AccountId myAccountId = AccountId.fromString("0.0.467739");
+        AccountId myAccountId = Constants.ACCOUNT_467739;
         log("AccountId: " + myAccountId);
-        PrivateKey myPrivateKey = PrivateKey.fromString("3030020100300706052b8104000a04220420daf20fec209b4da654c4dc3de5c0df2951fcc726a8d90f0cc127be278ba9a650");
+        PrivateKey myPrivateKey = Constants.PRI_KEY_467739;
         log("Private Key: " + myPrivateKey);
 
         Client client = Client.forTestnet();
